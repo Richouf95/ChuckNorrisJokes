@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuck Norris Jokes</title>
+  </head>
+  <style>
+    *{
+        margin: 0;
+    }
+  </style>
+  <body>
+    <div style="display: flex; justify-content: center; margin-top: 30px;"><img src="chuck_norris_PNG13.png" alt=""></div>
+    <h1 style="text-align: center; font-size: 3em;">Chuck Norris Jokes</h1>
+    <div style="display: flex; justify-content: center; margin: 30px;">
+        <button style="padding: 10px; border-radius: 10px; background: #F9B903;">Get a Joke</button>
+    </div>
+    <div id="jokes" style="justify-content: center; align-items: center; text-align: center; font-size: 2em;">
+        <p></p>
+    </div>
+    
+
+    <script>
+      let p = document.querySelector('p');
+      let btn = document.querySelector('button');
+      let joke = document.getElementById('joke');
+      //Création de l'objet XMLHttpRequest
+      let xhr = new XMLHttpRequest();
+
+      //Initialisation de la requette avec open()
+      btn.addEventListener('click', () => {
+        xhr.open("GET", 'https://api.chucknorris.io/jokes/random');
+        //On veut une reponse en format Json
+        xhr.responseType = "json";
+        //On envoie la requete
+        xhr.send();
+              //Dès que la requete est reçu
+        xhr.onload = function() {
+          //Si le status HTTP n'est pas 200...
+          if (xhr.status != 200) {
+            //... Alors on affiche le message correspondant
+            alert('Erreur ' + xhr.status + ' : ' + xhr.statusText);
+            //... Si le status HTTP est bien 200, on affiche le nombre d'octets téléchargés et la reponse
+          } else {
+            p.innerHTML = JSON.stringify(xhr.response.value);
+          }
+        };
+
+        //SI la requete n'a pas pu aboutir ...
+        xhr.onerror = function() {
+          alert('La requete a échoué');
+        }
+
+        // //Pendant le téléchargement ...
+        // xhr.onprogress = function() {
+        //   //lenghtComputable = booléen; true si la requete a une lenght calculable
+        //   if (ecent.lengthComputable) {
+        //     //laded = contient le nombre d'octets téléchargés
+        //     //total = contient le nombre total d'octets à téléchargé
+        //     alert(event.loaded + ' octets reçus sur un total de ' + event.total);
+        //   }
+        // }
+      })
+    </script>
+  </body>
+</html>
